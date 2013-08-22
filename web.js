@@ -12,6 +12,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8080);
 
+// Set static directory
+app.use(express.static(__dirname + '/'));
+
 // Render homepage (note trailing slash): example.com/
 app.get('/', function(request, response) {
   var data = fs.readFileSync('index.html').toString();
