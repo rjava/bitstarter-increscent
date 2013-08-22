@@ -13,7 +13,7 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8080);
 
 // Set static directory
-app.use(express.static(__dirname + '/'));
+app.use(express.static(process.cwd() + '/'));
 
 // Render homepage (note trailing slash): example.com/
 app.get('/', function(request, response) {
