@@ -1,11 +1,11 @@
 // Define routes for simple SSJS web app. 
 // Writes Coinbase orders to database.
 var async   = require('async')
-  , express = require('express')
-  , fs      = require('fs')
-  , http    = require('http')
-  , https   = require('https')
-  , db      = require('./models');
+, express = require('express')
+, fs      = require('fs')
+, http    = require('http')
+, https   = require('https')
+, db      = require('./models');
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -13,14 +13,13 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8080);
 
 // Set static directory
-app.use(express.static(process.cwd() + '/'));
+app.use('/assets', express.static(__dirname + '/assets'));
 
 // Render homepage (note trailing slash): example.com/
 app.get('/', function(request, response) {
   var data = fs.readFileSync('header.tpl.html').toString();
-  //data += fs.readFileSync('index.html').toString();
+  data += fs.readFileSync('index.html').toString();
   data += fs.readFileSync('footer.tpl.html').toString();
-  console.log(data);
   response.send(data);
 });
 
@@ -101,12 +100,12 @@ var addOrder = function(order_obj, callback) {
         callback();
       } else {
         // build instance and save
-          var new_order_instance = Order.build({
+        var new_order_instance = Order.build({
           coinbase_id: order.id,
           amount: order.total_btc.cents / 100000000, // convert satoshis to BTC
           time: order.created_at
         });
-          new_order_instance.save().success(function() {
+        new_order_instance.save().success(function() {
           callback();
         }).error(function(err) {
           callback(err);
