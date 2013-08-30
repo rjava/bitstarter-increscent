@@ -17,7 +17,10 @@ app.use(express.static(process.cwd() + '/'));
 
 // Render homepage (note trailing slash): example.com/
 app.get('/', function(request, response) {
-  var data = fs.readFileSync('index.html').toString();
+  var data = fs.readFileSync('header.tpl.html').toString();
+  //data += fs.readFileSync('index.html').toString();
+  data += fs.readFileSync('footer.tpl.html').toString();
+  console.log(data);
   response.send(data);
 });
 
